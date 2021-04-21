@@ -17,14 +17,28 @@ fun main() {
             }
             "article write" -> {
                 val id = articlesLastId +1
+
                 print("제목 : ")
                 val title = readLineTrim()
+
                 print("내용 : ")
                 val body = readLineTrim()
 
                 var article = Article(id, title, body)
+                articles.add(article)
+
                 println("${id}번 게시물이 작성되었습니다")
+
                 articlesLastId = id
+            }
+            "article list" -> {
+                println("번호  /  제목  /  작성일  /  수정일")
+                for (article in articles){
+                    println("${article.id}  /  ${article.title}")
+                }
+            }
+            else -> {
+                println("$command 는 존재하지 않는 명령어 입니다")
             }
         }
     }
