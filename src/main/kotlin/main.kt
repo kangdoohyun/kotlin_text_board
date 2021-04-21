@@ -1,3 +1,7 @@
+
+import java.text.SimpleDateFormat
+
+
 fun readLineTrim() = readLine()!!.trim()
 
 fun main() {
@@ -17,6 +21,8 @@ fun main() {
             }
             "article write" -> {
                 val id = articlesLastId +1
+                val regDate = Util.getNowDateStr()
+                val updateDate = Util.getNowDateStr()
 
                 print("제목 : ")
                 val title = readLineTrim()
@@ -24,7 +30,7 @@ fun main() {
                 print("내용 : ")
                 val body = readLineTrim()
 
-                var article = Article(id, title, body)
+                var article = Article(id, regDate, updateDate, title, body)
                 articles.add(article)
 
                 println("${id}번 게시물이 작성되었습니다")
@@ -34,7 +40,7 @@ fun main() {
             "article list" -> {
                 println("번호  /  제목  /  작성일  /  수정일")
                 for (article in articles){
-                    println("${article.id}  /  ${article.title}")
+                    println("${article.id}  /  ${article.title}  /  ${article.regDate}  /  ${article.updateDate}")
                 }
             }
             else -> {
@@ -44,6 +50,12 @@ fun main() {
     }
     println("== 게시판 관리 프로그램 종료 ==")
 }
-data class Article(val id : Int, val title : String, val body : String){
+data class Article(val id : Int, val regDate : String, val updateDate : String, val title : String, val body : String){
 
+}
+object Util{
+    fun getNowDateStr(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        return dateFormat.format(System.currentTimeMillis())
+    }
 }
