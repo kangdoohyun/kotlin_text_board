@@ -27,7 +27,7 @@ fun main() {
             }
             commend.startsWith("article delete ") -> {
                 val id = commend.trim().split(" ")[2].toInt()
-                var articleToDelete = getArticleById(id)
+                val articleToDelete = getArticleById(id)
 
                 if (articleToDelete == null) {
                     println("${id}번 게시물은 존재하지 않습니다")
@@ -36,6 +36,35 @@ fun main() {
                 articles.remove(articleToDelete)
                 println("${id}번 게시물을 삭제하였습니다")
 
+            }
+            commend.startsWith("article modify ") -> {
+                val id = commend.trim().split(" ")[2].toInt()
+                var articleToModify = getArticleById(id)
+
+                if (articleToModify == null){
+                    println("${id}번 게시물은 존재하지 않습니다")
+                    continue@loop
+                }
+                print("수정할 제목 :")
+                articleToModify.title = readLineTrim()
+                print("수정할 내용 :")
+                articleToModify.body = readLineTrim()
+                articleToModify.updateDate = Util.getNowDateStr()
+                println("${id}번 게시물을 수정하였습니다")
+            }
+            commend.startsWith("article detail ") -> {
+                val id = commend.trim().split(" ")[2].toInt()
+                var articleToDetail = getArticleById(id)
+
+                if (articleToDetail == null){
+                    println("${id}번 게시물은 존재하지 않습니다")
+                    continue@loop
+                }
+                println("번호 : ${articleToDetail.id}")
+                println("작성 날짜 : ${articleToDetail.regDate}")
+                println("수정 날짜 : ${articleToDetail.updateDate}")
+                println("제목 : ${articleToDetail.title}")
+                println("내용 : ${articleToDetail.body}")
             }
             commend ==  "article write" -> {
                 val id = articleLastId +1
@@ -65,7 +94,7 @@ fun main() {
     }
     println("게시물 관리 프로그램 종료")
 }
-data class Article(val id : Int, val regDate: String, val updateDate: String, val title: String, val body: String){
+data class Article(val id : Int, val regDate: String, var updateDate: String, var title: String, var body: String){
 
 }
 object Util{
