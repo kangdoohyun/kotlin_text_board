@@ -1,10 +1,21 @@
 import java.text.SimpleDateFormat
 
+val articles = mutableListOf<Article>()
+
 fun readLineTrim() = readLine()!!.trim()
+fun getArticleById(id : Int) :Article?{
+    for (article in articles) {
+        if (article.id == id) {
+            return article
+        }
+    }
+    return null
+}
+
 fun main() {
     println("게시물 관리 프로그램 실행")
     var articleLastId = 0
-    val articles = mutableListOf<Article>()
+
 
     loop@while (true){
         print("명령어 : ")
@@ -14,14 +25,10 @@ fun main() {
                 println("프로그램을 종료합니다")
                 break
             }
-            commend.startsWith("article delete") -> {
+            commend.startsWith("article delete ") -> {
                 val id = commend.trim().split(" ")[2].toInt()
-                var articleToDelete: Article? = null
-                for (article in articles) {
-                    if (article.id == id) {
-                        articleToDelete = article
-                    }
-                }
+                var articleToDelete = getArticleById(id)
+
                 if (articleToDelete == null) {
                     println("${id}번 게시물은 존재하지 않습니다")
                     continue@loop
